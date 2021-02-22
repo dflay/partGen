@@ -11,8 +11,8 @@ Make a `build` directory in parallel to the `sources` directory and copy the `co
 
 Run the following: 
 
-``
+```
 cd build 
 ./config.sh 
 make -jN (N = number of cores of your machine) 
-``
+```
