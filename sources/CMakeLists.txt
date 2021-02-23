@@ -47,6 +47,7 @@ set(
   run1.mac
   run2.mac
   vis.mac
+  df.mac
   input/He3-parts.csv
   )
 

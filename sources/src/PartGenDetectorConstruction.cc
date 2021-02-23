@@ -4,6 +4,18 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
 : G4VUserDetectorConstruction(),
   fScoringVolume(0),fDebug(false),fCheckOverlaps(true)
 { 
+
+   fTgtXSize = 5.*cm;
+   fTgtYSize = 5.*cm;
+   fTgtZSize = 5.*mm;
+
+   fDetXSize = 15.*cm;
+   fDetYSize = 15.*cm;
+   fDetZSize = 1.*mm;
+
+   fDetX     = 0.*cm;
+   fDetY     = 0.*cm;
+   fDetZ     = 5.*cm;
  
 }
 //______________________________________________________________________________
@@ -58,9 +70,11 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
 void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
    // build the target 
 
-   G4double x_len = 5*cm; // length along horizontal axis 
-   G4double y_len = 5*cm; // length along vertical axis 
-   G4double z_len = 5*mm; // length along beam axis 
+   G4double x_len = fTgtXSize; // length along horizontal axis 
+   G4double y_len = fTgtYSize; // length along vertical axis 
+   G4double z_len = fTgtZSize; // length along beam axis 
+
+   std::cout << "****** TARGET SIZE: " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *tgtShape = new G4Box("tgtShape",x_len/2.,y_len/2.,z_len/2.);
 
@@ -86,9 +100,10 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
 void PartGenDetectorConstruction::BuildDetector(G4LogicalVolume *logicMother){
    // build the target 
 
-   G4double x_len = 15*cm; // length along horizontal axis 
-   G4double y_len = 15*cm; // length along vertical axis 
-   G4double z_len = 1*mm; // length along beam axis 
+   G4double x_len = fDetXSize; // length along horizontal axis 
+   G4double y_len = fDetYSize; // length along vertical axis 
+   G4double z_len = fDetZSize; // length along beam axis 
+   std::cout << "****** DETECTOR SIZE: " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *detShape = new G4Box("detShape",x_len/2.,y_len/2.,z_len/2.);
 
@@ -101,9 +116,9 @@ void PartGenDetectorConstruction::BuildDetector(G4LogicalVolume *logicMother){
    bool checkOverlaps = true;  
 
    // location of our detector plane 
-   G4double x = 0; 
-   G4double y = 0; 
-   G4double z = 5*cm; 
+   G4double x = fDetX; 
+   G4double y = fDetY; 
+   G4double z = fDetZ; 
 
    new G4PVPlacement(0,                    // rotation relative to mother         
 	             G4ThreeVector(x,y,z), // position relative to mother           

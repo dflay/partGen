@@ -29,6 +29,7 @@
 
 #include "PartGenDetectorConstruction.hh"
 #include "PartGenActionInitialization.hh"
+#include "PartGenMessenger.hh"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -66,9 +67,13 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 #endif
 
+  PartGenMessenger *msg = new PartGenMessenger();
+
   // Set mandatory initialization classes
   // Detector construction
-  runManager->SetUserInitialization( new PartGenDetectorConstruction() );
+  PartGenDetectorConstruction *detector = new PartGenDetectorConstruction(); 
+  runManager->SetUserInitialization(detector);
+  msg->SetDetCon(detector); 
 
   // Physics list
   // G4VModularPhysicsList* physicsList = new QBBC;

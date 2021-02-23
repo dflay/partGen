@@ -52,14 +52,15 @@ class PartGenPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     // method from the base class
     virtual void GeneratePrimaries(G4Event*);         
   
+    void SetBeamEnergy(G4double be) { fBeamE = be; } 
+
     // method to access particle gun
     const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
   
   private:
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     // G4Box* fEnvelopeBox;
+    G4double fBeamE; 
 };
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif

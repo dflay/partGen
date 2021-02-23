@@ -52,6 +52,18 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
     
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
+    void SetTgtXSize(G4double x) { fTgtXSize = x; } 
+    void SetTgtYSize(G4double y) { fTgtYSize = y; } 
+    void SetTgtZSize(G4double z) { fTgtZSize = z; }
+ 
+    void SetDetXSize(G4double x) { fDetXSize = x; } 
+    void SetDetYSize(G4double y) { fDetYSize = y; } 
+    void SetDetZSize(G4double z) { fDetZSize = z; } 
+ 
+    void SetDetX(G4double x)     { fDetX = x;     } 
+    void SetDetY(G4double y)     { fDetY = y;     } 
+    void SetDetZ(G4double z)     { fDetZ = z;     } 
+
   protected:
     G4LogicalVolume*  fScoringVolume;
 
@@ -60,8 +72,12 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
    bool fDebug,fCheckOverlaps;
 
    // lists
-   std::map<G4String,G4Material *> fMaterialsMap;  
-
+   std::map<G4String,G4Material *> fMaterialsMap;
+ 
+   G4double fTgtXSize,fTgtYSize,fTgtZSize;
+   G4double fDetXSize,fDetYSize,fDetZSize;
+   G4double fDetX,fDetY,fDetZ;
+ 
    // methods 
    G4Material *GetMaterial(G4String name);
 
