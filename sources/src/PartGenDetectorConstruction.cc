@@ -20,7 +20,7 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
 
   // World
   G4double world_sizeXY = 5*m;
-  G4double world_sizeZ  = 5*m;
+  G4double world_sizeZ  = 10*m;
   G4Material* world_mat = GetMaterial("G4air"); 
   
   G4Box* solidWorld =    
@@ -42,8 +42,11 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
                       0,                     //copy number
                       fCheckOverlaps);        //overlaps checking
 
-  // build target material 
+  // build target  
   BuildTarget(logicWorld); 
+
+  // build detector  
+  BuildDetector(logicWorld); 
 
   // beam path (for reference only) 
   // BuildBeamRef(logicWorld);  
@@ -51,7 +54,6 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
   // always return the physical World
   return physWorld;
 }
-
 //______________________________________________________________________________
 void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
    // build the target 
@@ -78,10 +80,44 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
                      false,                // boolean object? (true or false)    
                      0,                    // copy number   
                      checkOverlaps);       // check overlaps       
+   
+}
+//______________________________________________________________________________
+void PartGenDetectorConstruction::BuildDetector(G4LogicalVolume *logicMother){
+   // build the target 
+
+   G4double x_len = 15*cm; // length along horizontal axis 
+   G4double y_len = 15*cm; // length along vertical axis 
+   G4double z_len = 1*mm; // length along beam axis 
+
+   G4Box *detShape = new G4Box("detShape",x_len/2.,y_len/2.,z_len/2.);
+
+   G4VisAttributes *vis = new G4VisAttributes(); 
+   vis->SetColour( G4Colour::Magenta() );
+
+   G4LogicalVolume *logicDet = new G4LogicalVolume(detShape,GetMaterial("G4air"),"logicDet"); 
+   logicDet->SetVisAttributes(vis);
+
+   bool checkOverlaps = true;  
+
+   // location of our detector plane 
+   G4double x = 0; 
+   G4double y = 0; 
+   G4double z = 5*cm; 
+
+   new G4PVPlacement(0,                    // rotation relative to mother         
+	             G4ThreeVector(x,y,z), // position relative to mother           
+                     logicDet,             // logical object     
+                     "physDet",            // name of physical placement     
+                     logicMother,          // logical mother       
+                     false,                // boolean object? (true or false)    
+                     0,                    // copy number   
+                     checkOverlaps);       // check overlaps       
 
    // make it a sensitive detector  
-   PartGenSD *mySD = new PartGenSD("tgt","tgtHitsCollection");
-   logicTgt->SetSensitiveDetector(mySD);  
+   PartGenSD *mySD = new PartGenSD("det","detHitsCollection");
+   G4SDManager::GetSDMpointer()->AddNewDetector(mySD); 
+   logicDet->SetSensitiveDetector(mySD);  
 
 }
 //______________________________________________________________________________

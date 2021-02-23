@@ -67,6 +67,7 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
 
    void BuildBeamRef(G4LogicalVolume *logicMother);  // reference incoming beam path (for debugging only) 
    void BuildTarget(G4LogicalVolume *logicMother);    
+   void BuildDetector(G4LogicalVolume *logicMother);    
 
    int ConstructMaterials(); 
 

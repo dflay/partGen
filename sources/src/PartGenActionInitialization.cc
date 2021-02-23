@@ -33,27 +33,23 @@
 #include "PartGenEventAction.hh"
 #include "PartGenSteppingAction.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 PartGenActionInitialization::PartGenActionInitialization()
  : G4VUserActionInitialization()
-{}
+{
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+}
+//______________________________________________________________________________
 PartGenActionInitialization::~PartGenActionInitialization()
-{}
+{
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+}
+//______________________________________________________________________________
 void PartGenActionInitialization::BuildForMaster() const
 {
   PartGenRunAction* runAction = new PartGenRunAction;
   SetUserAction(runAction);
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+//______________________________________________________________________________
 void PartGenActionInitialization::Build() const
 {
   SetUserAction(new PartGenPrimaryGeneratorAction);
@@ -61,10 +57,9 @@ void PartGenActionInitialization::Build() const
   PartGenRunAction* runAction = new PartGenRunAction;
   SetUserAction(runAction);
   
-  PartGenEventAction* eventAction = new PartGenEventAction(runAction);
+  // PartGenEventAction* eventAction = new PartGenEventAction(runAction);
+  PartGenEventAction* eventAction = new PartGenEventAction();
   SetUserAction(eventAction);
   
   SetUserAction(new PartGenSteppingAction(eventAction));
 }  
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

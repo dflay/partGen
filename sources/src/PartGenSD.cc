@@ -42,10 +42,7 @@ G4bool PartGenSD::ProcessHits(G4Step* step,G4TouchableHistory*)
   // create a hit 
   PartGenHit *hit = new PartGenHit();
 
-  auto touchable = (step->GetPreStepPoint()->GetTouchable());
-
-  // Used to retrieve coordinate transformations relevant to spectrometer coordinate system:
-  G4TouchableHistory* hist = (G4TouchableHistory*)(step->GetPreStepPoint()->GetTouchable());
+  // auto touchable = (step->GetPreStepPoint()->GetTouchable());
 
   if(!hit){
     G4ExceptionDescription msg;
@@ -78,12 +75,14 @@ G4bool PartGenSD::ProcessHits(G4Step* step,G4TouchableHistory*)
   hit->SetHitTime(hitTime);
 
   // extra stuff 
-  // G4ThreeVector pos = step->GetPreStepPoint()->GetPosition();     // in the lab coordinates
-  // hit->SetPos(pos);
-  // // transform position into local coordinates of detector 
-  // G4AffineTransform aTrans = hist->GetHistory()->GetTopTransform();
-  // pos = aTrans.TransformPoint(pos);
-  // hit->SetLabPos(pos);
+  // Used to retrieve coordinate transformations relevant to spectrometer coordinate system:
+  G4ThreeVector pos = step->GetPreStepPoint()->GetPosition();     // in the lab coordinates
+  hit->SetPos(pos);
+  // transform position into local coordinates of detector 
+  G4TouchableHistory* hist = (G4TouchableHistory*)(step->GetPreStepPoint()->GetTouchable());
+  G4AffineTransform aTrans = hist->GetHistory()->GetTopTransform();
+  pos = aTrans.TransformPoint(pos);
+  hit->SetLabPos(pos);
 
   // now append to vector 
   fHitsCollection->insert(hit);

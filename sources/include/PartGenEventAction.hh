@@ -31,27 +31,37 @@
 #define PartGenEventAction_h 1
 
 #include "G4UserEventAction.hh"
+#include "G4SDManager.hh"
 #include "globals.hh"
+#include "PartGenHit.hh"
 
-class PartGenRunAction;
+// class PartGenRunAction;
 
 /// Event action class
-///
 
 class PartGenEventAction : public G4UserEventAction
 {
   public:
-    PartGenEventAction(PartGenRunAction* runAction);
+    PartGenEventAction();
     virtual ~PartGenEventAction();
 
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
 
-    void AddEdep(G4double edep) { fEdep += edep; }
+    // void AddEdep(G4double edep)   { fEdep  += edep;  }
+    // void AddTrLen(G4double trLen) { fTrLen += trLen; }
+    // void SetMomentum(G4ThreeVector P) { fPx = P.x(); fPy = P.y(); fPz = P.z(); } 
+    // void SetPosition(G4ThreeVector Q) { fx  = Q.x(); fy  = Q.y(); fz  = Q.z(); } 
 
   private:
-    PartGenRunAction* fRunAction;
-    G4double     fEdep;
+    // PartGenRunAction* fRunAction;
+    // G4double fEdep;
+    // G4double fTrLen;
+    // G4double fPx,fPy,fPz;
+    // G4double fx,fy,fz;
+
+    PartGenHitsCollection *GetHitsCollection(G4int hcID,const G4Event *event) const;
+
 };
 
 #endif

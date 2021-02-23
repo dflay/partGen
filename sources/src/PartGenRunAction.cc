@@ -61,17 +61,13 @@ PartGenRunAction::PartGenRunAction()
   // Book histograms, ntuple
 
   // Creating histograms
-  analysisManager->CreateH1("Edep","Edep in tgt", 100, 0.,15.);     // in GeV
-  // analysisManager->CreateH1("Egap","Edep in gap", 100, 0., 100*MeV);
-  // analysisManager->CreateH1("Labs","trackL in IC", 100, 0.,1E+3); // in mm 
-  // analysisManager->CreateH1("Lgap","trackL in gap", 100, 0., 50*cm);
+  analysisManager->CreateH1("Edep","Edep in tgt", 100, 0.,15.);     
+  analysisManager->CreateH1("TrLen","Track Length in tgt", 100, 0.,50*cm);     
 
   // Creating ntuple
   analysisManager->CreateNtuple("partGen","Energy, momentum, and Position");
   analysisManager->CreateNtupleDColumn("Edep");
-  // analysisManager->CreateNtupleDColumn("Egap");
-  analysisManager->CreateNtupleDColumn("Labs");
-  // analysisManager->CreateNtupleDColumn("Lgap");
+  analysisManager->CreateNtupleDColumn("TrLen");
   analysisManager->CreateNtupleDColumn("Etot");
   // position 
   analysisManager->CreateNtupleDColumn("xPos");
@@ -98,7 +94,7 @@ PartGenRunAction::~PartGenRunAction()
 void PartGenRunAction::BeginOfRunAction(const G4Run*)
 { 
   // inform the runManager to save random number seed
-  G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+  // G4RunManager::GetRunManager()->SetRandomNumberStore(false);
 
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
@@ -112,7 +108,7 @@ void PartGenRunAction::EndOfRunAction(const G4Run* run)
 {
 
   auto analysisManager = G4AnalysisManager::Instance();
-  if ( analysisManager->GetH1(1) ) {
+  if ( analysisManager->GetH1(0) ) {
     G4cout << G4endl << " ----> print histograms statistic ";
     if(isMaster) {
       G4cout << "for the entire run " << G4endl << G4endl;
@@ -120,7 +116,7 @@ void PartGenRunAction::EndOfRunAction(const G4Run* run)
     else {
       G4cout << "for the local thread " << G4endl << G4endl;
     } 
-    G4cout << " EAbs : mean = " 
+    G4cout << " Edep : mean = " 
        << G4BestUnit(analysisManager->GetH1(0)->mean(), "Energy") 
        << " rms = " 
        << G4BestUnit(analysisManager->GetH1(0)->rms(),  "Energy") << G4endl;

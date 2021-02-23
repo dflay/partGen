@@ -38,6 +38,7 @@
 
 #include "G4UImanager.hh"
 #include "QBBC.hh"
+#include "FTFP_BERT.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
@@ -70,7 +71,8 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization( new PartGenDetectorConstruction() );
 
   // Physics list
-  G4VModularPhysicsList* physicsList = new QBBC;
+  // G4VModularPhysicsList* physicsList = new QBBC;
+  G4VModularPhysicsList* physicsList = new FTFP_BERT; // Geant4 default 
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
     
