@@ -2,7 +2,7 @@
 //______________________________________________________________________________
 PartGenDetectorConstruction::PartGenDetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fScoringVolume(0),fDebug(false),fCheckOverlaps(true)
+  fScoringVolume(0),fMessenger(0),fDebug(false),fCheckOverlaps(true)
 { 
 
    fTgtXSize = 5.*cm;
@@ -16,12 +16,16 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
    fDetX     = 0.*cm;
    fDetY     = 0.*cm;
    fDetZ     = 5.*cm;
+
+   fTgtMaterialName = "Aluminum"; 
+
+   fMessenger = new PartGenMessenger(this); 
  
 }
 //______________________________________________________________________________
 PartGenDetectorConstruction::~PartGenDetectorConstruction()
 { 
-
+   delete fMessenger;
 }
 //______________________________________________________________________________
 G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
@@ -33,7 +37,7 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
   // World
   G4double world_sizeXY = 5*m;
   G4double world_sizeZ  = 10*m;
-  G4Material* world_mat = GetMaterial("G4air"); 
+  G4Material* world_mat = GetMaterial("Vacuum"); 
   
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
@@ -74,6 +78,7 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
    G4double y_len = fTgtYSize; // length along vertical axis 
    G4double z_len = fTgtZSize; // length along beam axis 
 
+   std::cout << "****** TARGET MATERIAL: " << fTgtMaterialName << std::endl;
    std::cout << "****** TARGET SIZE: " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *tgtShape = new G4Box("tgtShape",x_len/2.,y_len/2.,z_len/2.);
@@ -81,7 +86,7 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
    G4VisAttributes *vis = new G4VisAttributes(); 
    vis->SetColour( G4Colour::White() );
 
-   G4LogicalVolume *logicTgt = new G4LogicalVolume(tgtShape,GetMaterial("Copper"),"logicTarget"); 
+   G4LogicalVolume *logicTgt = new G4LogicalVolume(tgtShape,GetMaterial(fTgtMaterialName),"logicTarget"); 
    logicTgt->SetVisAttributes(vis);
 
    bool checkOverlaps = true;  
@@ -193,27 +198,30 @@ int PartGenDetectorConstruction::ConstructMaterials(){
 
    // Define elements, compounds here that we'll need 
    // We don't need to supply the molar mass, because G4NistManager does it for us!
-   G4int Z,N,ncomponents,nel; 
-   G4double abundance;
+   G4int Z,N,A,ncomponents; // ,nel; 
+   G4double abundance,density;
+
+   G4String name;
 
    G4Isotope *iso_3He = new G4Isotope( "He3", Z=2, N=3 );
 
    G4Element *el3He = new G4Element("Helium3","3He",ncomponents=1); //Define isotopically pure Helium-3 
    el3He->AddIsotope( iso_3He, abundance=100.0*perCent );
 
-   G4Element *elH  = nist->FindOrBuildElement("H"); 
-   G4Element *elO  = nist->FindOrBuildElement("O");
+   // G4Element *elH  = nist->FindOrBuildElement("H"); 
+   // G4Element *elO  = nist->FindOrBuildElement("O");
    G4Element *elC  = nist->FindOrBuildElement("C");
    G4Element *elAl = nist->FindOrBuildElement("Al");
-   G4Element *elSi = nist->FindOrBuildElement("Si");
-   G4Element *elCa = nist->FindOrBuildElement("Ca");
-   G4Element *elSr = nist->FindOrBuildElement("Sr");
-   G4Element *elBa = nist->FindOrBuildElement("Ba");
+   // G4Element *elSi = nist->FindOrBuildElement("Si");
+   // G4Element *elCa = nist->FindOrBuildElement("Ca");
+   // G4Element *elSr = nist->FindOrBuildElement("Sr");
+   // G4Element *elBa = nist->FindOrBuildElement("Ba");
    G4Element *elCu = nist->FindOrBuildElement("Cu");
    G4Element *elMn = nist->FindOrBuildElement("Mn"); 
    G4Element *elFe = nist->FindOrBuildElement("Fe"); 
    G4Element *elS  = nist->FindOrBuildElement("S"); 
    G4Element *elP  = nist->FindOrBuildElement("P"); 
+   G4Element *elW  = nist->FindOrBuildElement("W"); 
 
    // Cu
    G4Material *Cu = new G4Material("Copper",8.96*g/cm3,1.); 
@@ -223,59 +231,12 @@ int PartGenDetectorConstruction::ConstructMaterials(){
    // Al 
    G4Material *Al = new G4Material("Aluminum",2.7*g/cm3,1.); 
    Al->AddElement(elAl,1); 
-   fMaterialsMap["Aluminum"] = Al; 
+   fMaterialsMap["Aluminum"] = Al;
 
-   G4Material* NEMAG10 = new G4Material("NEMAG10",1.70*g/cm3,nel=4);
-   NEMAG10->AddElement(elSi, 1);
-   NEMAG10->AddElement(elO , 2);
-   NEMAG10->AddElement(elC , 3);
-   NEMAG10->AddElement(elH , 3);
-   fMaterialsMap["NEMAG10"] = NEMAG10; 
-
-   // GE180   
-   G4double bigden = 1e9*g/cm3; // why so big? To make these materials not weigh as much in the physics?  
-   // gather necessary molecules and compounds  
-   // SiO2 60.3%
-   G4Material* SiO2 = new G4Material("GE180_SiO2", 2.2*g/cm3, 2 );
-   SiO2->AddElement(elSi, 1);
-   SiO2->AddElement(elO, 2);
-   fMaterialsMap["GE180_SiO2"] = SiO2;
-   // BaO  18.2%
-   G4Material* BaO = new G4Material("GE180_BaO", bigden, 2 );
-   BaO->AddElement(elBa, 1);
-   BaO->AddElement(elO, 1);
-   fMaterialsMap["GE180_BaO"] = BaO;
-   // Al2O3 14.3%
-   G4Material* Al2O3 = new G4Material("GE180_Al2O3", bigden, 2 );
-   Al2O3->AddElement(elAl, 2);
-   Al2O3->AddElement(elO, 3);
-   fMaterialsMap["GE180_Al2O3"] = Al2O3;
-   // CaO   6.5%
-   G4Material* CaO = new G4Material("GE180_CaO", bigden, 2 );
-   CaO->AddElement(elCa, 1);
-   CaO->AddElement(elO, 1);
-   fMaterialsMap["GE180_CaO"] = CaO;
-   // SrO   0.25%
-   G4Material* SrO = new G4Material("GE180_SrO", bigden, 2 );
-   SrO->AddElement(elSr, 1);
-   SrO->AddElement(elO, 1);
-   fMaterialsMap["GE180_SrO"] = SrO;
-
-   // Density 2.76 g/cm^3
-   // Index of Refraction 1.536
-   G4Material* GE180 = new G4Material("GE180", 2.76*g/cm3, 5);
-   GE180->AddMaterial(SiO2 , 0.6039);
-   GE180->AddMaterial(BaO  , 0.1829);
-   GE180->AddMaterial(Al2O3, 0.1439);
-   GE180->AddMaterial(CaO  , 0.0659);
-   GE180->AddMaterial(SrO  , 0.0034);
-   fMaterialsMap["GE180"] = GE180;
-
-   //---- polarized 3He ----
-   G4double gasden = 10.77*atmosphere*(3.016*g/Avogadro)/(300*kelvin*k_Boltzmann);
-   G4Material *pol3He = new G4Material("pol3He", gasden, 1 );
-   pol3He->AddElement(el3He, 1);
-   fMaterialsMap["He3"] = pol3He;  
+   // Tungsten 
+   G4Material *Tungsten = new G4Material("Tungsten",19.3*g/cm3,1.);
+   Tungsten->AddElement(elW,1); 
+   fMaterialsMap["Tungsten"] = Tungsten;  
 
    // for the support materials 
    G4Material *Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
@@ -299,6 +260,10 @@ int PartGenDetectorConstruction::ConstructMaterials(){
 	 std::cout << (*it).first << ": " << (*it).second << std::endl;
       }
    }
+
+   // Vacuum 
+   G4Material *Vacuum = new G4Material(name="Vacuum", Z=1., A=1.0*g/mole, density=1e-9*g/cm3);
+   fMaterialsMap["Vacuum"] = Vacuum;
 
    return 0;
 }

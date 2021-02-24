@@ -119,7 +119,7 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       EDEP = theHit->GetEdep()/CLHEP::GeV;
       ETOT = theHit->GetTotalEnergy()/CLHEP::GeV;
       TLEN = theHit->GetTrackLength()/CLHEP::mm;
-      pmag = theHit->GetMomentumMag()/(CLHEP::GeV/CLHEP::c_light);
+      pmag = theHit->GetMomentumMag()/CLHEP::GeV;
 
       G4ThreeVector pos = theHit->GetPos();
       x = pos.getX()/CLHEP::mm;
@@ -132,15 +132,15 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       lz = labPos.getZ()/CLHEP::mm;
 
       G4ThreeVector mom = theHit->GetMomentum();
-      px = mom.getX()/(CLHEP::GeV/CLHEP::c_light);
-      py = mom.getY()/(CLHEP::GeV/CLHEP::c_light);
-      pz = mom.getZ()/(CLHEP::GeV/CLHEP::c_light);
+      px = mom.getX()/CLHEP::GeV;
+      py = mom.getY()/CLHEP::GeV;
+      pz = mom.getZ()/CLHEP::GeV;
 
       std::cout << "[PartGenEventAction::EndOfEventAction]: Event " << eventID << std::endl;
       std::cout << "hit = " << i << std::endl;
       std::cout << "Edep = " << EDEP << " GeV" << std::endl;
       std::cout << "x_lab = " << lx << " mm, y_lab = " << ly << " mm, z_lab = " << lz << " mm" << std::endl;
-      std::cout << "px = " << px << " GeV/c, py = " << py << " GeV/c, pz = " << pz << " GeV/c, |p| = " << pmag << " GeV/c" << std::endl;
+      std::cout << "px = " << px << " GeV, py = " << py << " GeV, pz = " << pz << " GeV, |p| = " << pmag << " GeV" << std::endl;
       std::cout << "----" << std::endl;
 
       // analysisManager->FillNtupleDColumn(0 ,EDEP );

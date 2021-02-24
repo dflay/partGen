@@ -1,10 +1,30 @@
 #include "PartGenMessenger.hh"
 //______________________________________________________________________________
-PartGenMessenger::PartGenMessenger(){
+PartGenMessenger::PartGenMessenger(PartGenDetectorConstruction *dc)
+   :G4UImessenger(),
+   fDetCon(dc),
+   msgDir(0),
+   tgtXsizeCmd(0),
+   tgtYsizeCmd(0),
+   tgtZsizeCmd(0),
+   detXsizeCmd(0),
+   detYsizeCmd(0),
+   detZsizeCmd(0),
+   detXposCmd(0),
+   detYposCmd(0),
+   detZposCmd(0)
+{
 
-  beamEnergyCmd = new G4UIcmdWithADoubleAndUnit("/partGen/beamE",this);
-  beamEnergyCmd->SetGuidance("Beam energy");
-  beamEnergyCmd->SetParameterName("beamE",true); // second argument = omittable? 
+  msgDir = new G4UIdirectory("/partGen/");
+  msgDir->SetGuidance("Setup commands"); 
+
+  // beamEnergyCmd = new G4UIcmdWithADoubleAndUnit("/partGen/beamE",this);
+  // beamEnergyCmd->SetGuidance("Beam energy");
+  // beamEnergyCmd->SetParameterName("beamE",true); // second argument = omittable? 
+
+  tgtMaterialCmd = new G4UIcmdWithAString("/partGen/tgtMaterial",this); 
+  tgtMaterialCmd->SetGuidance("Target material (options: Tungsten, Copper, Al)");
+  tgtMaterialCmd->SetParameterName("tgtMaterial",true);  
 
   tgtXsizeCmd = new G4UIcmdWithADoubleAndUnit("/partGen/tgtXsize",this);
   tgtXsizeCmd->SetGuidance("Target x size");
@@ -45,14 +65,28 @@ PartGenMessenger::PartGenMessenger(){
 }
 //______________________________________________________________________________
 PartGenMessenger::~PartGenMessenger(){
-
+  if(tgtMaterialCmd) delete tgtMaterialCmd;
+  if(tgtXsizeCmd)    delete tgtXsizeCmd; 
+  if(tgtYsizeCmd)    delete tgtYsizeCmd; 
+  if(tgtZsizeCmd)    delete tgtZsizeCmd; 
+  if(detXsizeCmd)    delete detXsizeCmd; 
+  if(detYsizeCmd)    delete detYsizeCmd; 
+  if(detZsizeCmd)    delete detZsizeCmd; 
+  if(detXposCmd)     delete detXposCmd; 
+  if(detYposCmd)     delete detYposCmd; 
+  if(detZposCmd)     delete detZposCmd; 
+  if(msgDir)         delete msgDir; 
 }
 //______________________________________________________________________________
 void PartGenMessenger::SetNewValue(G4UIcommand *cmd,G4String newValue){
 
-   if( cmd==beamEnergyCmd ){
-      G4double be = beamEnergyCmd->GetNewDoubleValue(newValue);
-      fPriGen->SetBeamEnergy(be);   
+   // if( cmd==beamEnergyCmd ){
+   //    G4double be = beamEnergyCmd->GetNewDoubleValue(newValue);
+   //    fPriGen->SetBeamEnergy(be);   
+   // }
+
+   if( cmd==tgtMaterialCmd ){
+      fDetCon->SetTgtMaterial(newValue);
    }
 
    if( cmd==tgtXsizeCmd ){

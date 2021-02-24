@@ -13,6 +13,7 @@
 #include "PartParameters.hh"
 #include "PartGenEnumerate.hh"
 #include "PartGenSD.hh"
+#include "PartGenMessenger.hh"
 
 #include "G4Transform3D.hh"
 #include "G4PhysicalConstants.hh"
@@ -39,6 +40,7 @@
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
+class PartGenMessenger; 
 
 /// Detector construction class to define materials and geometry.
 
@@ -60,15 +62,19 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
     void SetDetYSize(G4double y) { fDetYSize = y; } 
     void SetDetZSize(G4double z) { fDetZSize = z; } 
  
-    void SetDetX(G4double x)     { fDetX = x;     } 
-    void SetDetY(G4double y)     { fDetY = y;     } 
-    void SetDetZ(G4double z)     { fDetZ = z;     } 
+    void SetDetX(G4double x)     { fDetX     = x; } 
+    void SetDetY(G4double y)     { fDetY     = y; } 
+    void SetDetZ(G4double z)     { fDetZ     = z; } 
+
+    void SetTgtMaterial(G4String name) { fTgtMaterialName = name; } 
 
   protected:
     G4LogicalVolume*  fScoringVolume;
 
   private:
    // data members 
+   PartGenMessenger *fMessenger; 
+
    bool fDebug,fCheckOverlaps;
 
    // lists
@@ -77,6 +83,8 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
    G4double fTgtXSize,fTgtYSize,fTgtZSize;
    G4double fDetXSize,fDetYSize,fDetZSize;
    G4double fDetX,fDetY,fDetZ;
+
+   G4String fTgtMaterialName;
  
    // methods 
    G4Material *GetMaterial(G4String name);

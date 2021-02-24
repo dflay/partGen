@@ -67,13 +67,13 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 #endif
 
-  PartGenMessenger *msg = new PartGenMessenger();
+  // PartGenMessenger *msg = new PartGenMessenger();
 
   // Set mandatory initialization classes
   // Detector construction
   PartGenDetectorConstruction *detector = new PartGenDetectorConstruction(); 
   runManager->SetUserInitialization(detector);
-  msg->SetDetCon(detector); 
+  // msg->SetDetCon( (PartGenDetectorConstruction *)detector ); 
 
   // Physics list
   // G4VModularPhysicsList* physicsList = new QBBC;
