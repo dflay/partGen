@@ -40,18 +40,15 @@ target_link_libraries(partGenMain ${Geant4_LIBRARIES})
 # build partGen. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-set(
-  partGenMain.in
-  partGenMain.out
+set(PG_SCRIPTS
+  # partGenMain.in
+  # partGenMain.out
   init_vis.mac
-  run1.mac
-  run2.mac
   vis.mac
   df.mac
-  input/He3-parts.csv
   )
 
-foreach(_script ${EXAMPLEpartGen_SCRIPTS})
+foreach(_script ${PG_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
