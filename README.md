@@ -5,6 +5,14 @@ determining their emerging energies and positions in the transverse plane.
 
 The default geometry is set in the Geant4 macro file `~/sources/df.mac`.  The world volume is set to vacuum. 
 
+## Downloading the Source 
+
+Create a clone of the repository in your location of choice via: 
+
+```
+git clone https://github.com/dflay/partGen.git 
+```
+
 ## Building 
 
 Make a `build` directory in parallel to the `sources` directory and copy the `config.sh` script to the `build` directory.
