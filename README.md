@@ -61,5 +61,6 @@ py = y component of momentum (GeV)
 pz = z component of momentum (GeV)
 P = quadrature sum of px, py, pz (GeV)
 hit = hit index (integer)
-pid = particle ID (11 = e-, -11 = e+). Full particle code is here: https://root.cern.ch/doc/master/TPDGCode_8h.html
+pid = particle ID 
 ```
+The full particle ID code is here: https://root.cern.ch/doc/master/TPDGCode_8h.html
