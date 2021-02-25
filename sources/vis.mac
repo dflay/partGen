@@ -7,13 +7,17 @@
 /partGen/tgt/tgtXsize 20 cm       # width (perpendicular to beam) 
 /partGen/tgt/tgtYsize 20 cm       # height (perpendicular to beam)
 /partGen/tgt/tgtZsize 5  cm       # thickness along beam
-# detector setup (rectangle)  
+# detector setup (rectangle) 
+/partGen/det/detMaterial Air      # other options: Tungsten, Copper, Aluminum (full spelling) 
 /partGen/det/detXsize 20 cm       # width (perpendicular to beam) 
 /partGen/det/detYsize 20 cm       # height (perpendicular to beam)
 /partGen/det/detZsize 5  cm       # thickness along beam
 /partGen/det/detX     0  cm       # position in horizontal direction (+x = beam left) 
 /partGen/det/detY     0  cm       # position in vertical direction   (+y = above beam)          
-/partGen/det/detZ     20 cm       # position along beam axis         (+z = downstream)   
+/partGen/det/detZ     20 cm       # position along beam axis         (+z = downstream)  
+
+# initialize geometry and physics 
+/run/initialize 
 
 # Use these open statements to open selected visualization
 #

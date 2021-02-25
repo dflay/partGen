@@ -42,6 +42,10 @@ PartGenDetMessenger::PartGenDetMessenger(PartGenDetectorConstruction *dc)
   tgtZsizeCmd->SetGuidance("Target z size");
   tgtZsizeCmd->SetParameterName("tgtZsize",true); // second argument = omittable? 
 
+  detMaterialCmd = new G4UIcmdWithAString("/partGen/det/detMaterial",this); 
+  detMaterialCmd->SetGuidance("Detector material (options: Air, Copper, Aluminum, Tungsten)");
+  detMaterialCmd->SetParameterName("detMaterial",true); // second argument = omittable? (T or F)   
+
   detXsizeCmd = new G4UIcmdWithADoubleAndUnit("/partGen/det/detXsize",this);
   detXsizeCmd->SetGuidance("Detector x size");
   detXsizeCmd->SetParameterName("detXsize",true); // second argument = omittable? 
@@ -73,14 +77,15 @@ PartGenDetMessenger::~PartGenDetMessenger(){
   if(tgtXsizeCmd)    delete tgtXsizeCmd; 
   if(tgtYsizeCmd)    delete tgtYsizeCmd; 
   if(tgtZsizeCmd)    delete tgtZsizeCmd; 
+  if(detMaterialCmd) delete detMaterialCmd;
   if(detXsizeCmd)    delete detXsizeCmd; 
   if(detYsizeCmd)    delete detYsizeCmd; 
   if(detZsizeCmd)    delete detZsizeCmd; 
   if(detXposCmd)     delete detXposCmd; 
   if(detYposCmd)     delete detYposCmd; 
   if(detZposCmd)     delete detZposCmd; 
-  if(genDir)         delete tgtDir; 
-  if(genDir)         delete detDir; 
+  if(tgtDir)         delete tgtDir; 
+  if(detDir)         delete detDir; 
   if(genDir)         delete genDir; 
 }
 //______________________________________________________________________________
@@ -101,6 +106,10 @@ void PartGenDetMessenger::SetNewValue(G4UIcommand *cmd,G4String newValue){
    if( cmd==tgtZsizeCmd ){
       G4double zt_s = tgtZsizeCmd->GetNewDoubleValue(newValue);
       fDetCon->SetTgtZSize(zt_s);   
+   }
+
+   if( cmd==detMaterialCmd ){
+      fDetCon->SetDetMaterial(newValue);
    }
 
    if( cmd==detXsizeCmd ){

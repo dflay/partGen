@@ -5,6 +5,7 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
   fScoringVolume(0),fMessenger(0),fDebug(false),fCheckOverlaps(true)
 { 
 
+   std::cout << "START DETECTOR CONSTRUCTOR " << std::endl;
    fTgtXSize = 5.*cm;
    fTgtYSize = 5.*cm;
    fTgtZSize = 5.*mm;
@@ -18,8 +19,11 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
    fDetZ     = 5.*cm;
 
    fTgtMaterialName = "Aluminum"; 
+   fDetMaterialName = "Air"; 
 
    fMessenger = new PartGenDetMessenger(this); 
+   
+   std::cout << "END DETECTOR CONSTRUCTOR " << std::endl;
  
 }
 //______________________________________________________________________________
@@ -30,10 +34,16 @@ PartGenDetectorConstruction::~PartGenDetectorConstruction()
 //______________________________________________________________________________
 G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
 {  
-
+    
   // build materials 
   if( fMaterialsMap.empty() ) ConstructMaterials();
 
+  return ConstructGeometries(); 
+}
+//______________________________________________________________________________
+G4VPhysicalVolume *PartGenDetectorConstruction::ConstructGeometries(){
+
+  std::cout << "Starting to construct geometry..." << std::endl;
   // World
   G4double world_sizeXY = 5*m;
   G4double world_sizeZ  = 10*m;
@@ -63,12 +73,15 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
 
   // build detector  
   BuildDetector(logicWorld); 
+  
+  std::cout << "done." << std::endl;
 
   // beam path (for reference only) 
   // BuildBeamRef(logicWorld);  
 
   // always return the physical World
   return physWorld;
+
 }
 //______________________________________________________________________________
 void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
@@ -79,7 +92,7 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
    G4double z_len = fTgtZSize; // length along beam axis 
 
    std::cout << "****** TARGET MATERIAL: " << fTgtMaterialName << std::endl;
-   std::cout << "****** TARGET SIZE: " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
+   std::cout << "****** TARGET SIZE:     " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *tgtShape = new G4Box("tgtShape",x_len/2.,y_len/2.,z_len/2.);
 
@@ -107,15 +120,16 @@ void PartGenDetectorConstruction::BuildDetector(G4LogicalVolume *logicMother){
 
    G4double x_len = fDetXSize; // length along horizontal axis 
    G4double y_len = fDetYSize; // length along vertical axis 
-   G4double z_len = fDetZSize; // length along beam axis 
-   std::cout << "****** DETECTOR SIZE: " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
+   G4double z_len = fDetZSize; // length along beam axis
+   std::cout << "****** DETECTOR MATERIAL: " << fDetMaterialName << std::endl; 
+   std::cout << "****** DETECTOR SIZE:     " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *detShape = new G4Box("detShape",x_len/2.,y_len/2.,z_len/2.);
 
    G4VisAttributes *vis = new G4VisAttributes(); 
    vis->SetColour( G4Colour::Magenta() );
 
-   G4LogicalVolume *logicDet = new G4LogicalVolume(detShape,GetMaterial("G4air"),"logicDet"); 
+   G4LogicalVolume *logicDet = new G4LogicalVolume(detShape,GetMaterial(fDetMaterialName),"logicDet"); 
    logicDet->SetVisAttributes(vis);
 
    bool checkOverlaps = true;  
@@ -194,19 +208,14 @@ int PartGenDetectorConstruction::ConstructMaterials(){
 
    // world material 
    G4Material *G4Air = nist->FindOrBuildMaterial("G4_AIR");
-   fMaterialsMap["G4air"] = G4Air; 
+   fMaterialsMap["Air"] = G4Air; 
 
    // Define elements, compounds here that we'll need 
    // We don't need to supply the molar mass, because G4NistManager does it for us!
-   G4int Z,N,A,ncomponents; // ,nel; 
-   G4double abundance,density;
+   G4int Z,A;
+   // G4double N,A,ncomponents,nel,abundance;
 
    G4String name;
-
-   G4Isotope *iso_3He = new G4Isotope( "He3", Z=2, N=3 );
-
-   G4Element *el3He = new G4Element("Helium3","3He",ncomponents=1); //Define isotopically pure Helium-3 
-   el3He->AddIsotope( iso_3He, abundance=100.0*perCent );
 
    // G4Element *elH  = nist->FindOrBuildElement("H"); 
    // G4Element *elO  = nist->FindOrBuildElement("O");
@@ -261,7 +270,8 @@ int PartGenDetectorConstruction::ConstructMaterials(){
       }
    }
 
-   // Vacuum 
+   // Vacuum
+   G4double density; 
    G4Material *Vacuum = new G4Material(name="Vacuum", Z=1., A=1.0*g/mole, density=1e-9*g/cm3);
    fMaterialsMap["Vacuum"] = Vacuum;
 

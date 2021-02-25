@@ -1,11 +1,4 @@
-# Initialize kernel
-/run/initialize
-#
-/control/verbose 2
-/run/verbose 2
-/event/verbose 0
-/tracking/verbose 1
-# 
+# beam, target, geometry options 
 # beam setup e- is default (and fixed) particle type 
 /partGen/beam/momentum 10 GeV # beam momentum  
 # target setup (rectangle) 
@@ -14,12 +7,21 @@
 /partGen/tgt/tgtYsize 20 cm       # height (perpendicular to beam)
 /partGen/tgt/tgtZsize 5  cm       # thickness along beam
 # detector setup (rectangle)  
+/partGen/det/detMaterial Air      # other options: Tungsten, Copper, Aluminum (full spelling) 
 /partGen/det/detXsize 20 cm       # width (perpendicular to beam) 
 /partGen/det/detYsize 20 cm       # height (perpendicular to beam)
 /partGen/det/detZsize 5  cm       # thickness along beam
 /partGen/det/detX     0  cm       # position in horizontal direction (+x = beam left) 
 /partGen/det/detY     0  cm       # position in vertical direction   (+y = above beam)          
-/partGen/det/detZ     20 cm       # position along beam axis         (+z = downstream)          
+/partGen/det/detZ     20 cm       # position along beam axis         (+z = downstream)         
+
+# initialize geometry and physics 
+/run/initialize 
+# verbosity levels  
+/control/verbose 2
+/run/verbose 2
+/event/verbose 0
+/tracking/verbose 1
 
 # run events 
 /run/beamOn 1000

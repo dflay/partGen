@@ -54,10 +54,12 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
     
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
-    void SetTgtXSize(G4double x) { fTgtXSize = x; } 
-    void SetTgtYSize(G4double y) { fTgtYSize = y; } 
-    void SetTgtZSize(G4double z) { fTgtZSize = z; }
+    void SetTgtMaterial(G4String name) { fTgtMaterialName = name; } 
+    void SetTgtXSize(G4double x) { std::cout << "SETTING TARGET X SIZE" << std::endl; fTgtXSize = x; } 
+    void SetTgtYSize(G4double y) { std::cout << "SETTING TARGET Y SIZE" << std::endl; fTgtYSize = y; } 
+    void SetTgtZSize(G4double z) { std::cout << "SETTING TARGET Z SIZE" << std::endl; fTgtZSize = z; }
  
+    void SetDetMaterial(G4String name) { fDetMaterialName = name; } 
     void SetDetXSize(G4double x) { fDetXSize = x; } 
     void SetDetYSize(G4double y) { fDetYSize = y; } 
     void SetDetZSize(G4double z) { fDetZSize = z; } 
@@ -66,7 +68,6 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
     void SetDetY(G4double y)     { fDetY     = y; } 
     void SetDetZ(G4double z)     { fDetZ     = z; } 
 
-    void SetTgtMaterial(G4String name) { fTgtMaterialName = name; } 
 
   protected:
     G4LogicalVolume*  fScoringVolume;
@@ -85,6 +86,7 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
    G4double fDetX,fDetY,fDetZ;
 
    G4String fTgtMaterialName;
+   G4String fDetMaterialName;
  
    // methods 
    G4Material *GetMaterial(G4String name);
@@ -93,7 +95,9 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
    void BuildTarget(G4LogicalVolume *logicMother);    
    void BuildDetector(G4LogicalVolume *logicMother);    
 
-   int ConstructMaterials(); 
+   int ConstructMaterials();
+
+   G4VPhysicalVolume *ConstructGeometries();  
 
 };
 

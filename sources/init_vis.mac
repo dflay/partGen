@@ -10,7 +10,7 @@
 #/run/numberOfThreads 4
 #
 # Initialize kernel
-/run/initialize
+# /run/initialize # this construts geometry!! 
 #
 # Visualization setting
 /control/execute vis.mac

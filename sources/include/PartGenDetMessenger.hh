@@ -30,14 +30,15 @@ class PartGenDetMessenger: public G4UImessenger {
       G4UIdirectory *tgtDir;
       G4UIdirectory *detDir;
 
-      G4UIcmdWithAString *tgtMaterialCmd; 
-
       // target commands
+      G4UIcmdWithAString *tgtMaterialCmd; 
       G4UIcmdWithADoubleAndUnit *tgtXsizeCmd;
       G4UIcmdWithADoubleAndUnit *tgtYsizeCmd;
       G4UIcmdWithADoubleAndUnit *tgtZsizeCmd;
 
       // detector commands
+      G4UIcmdWithAString *detMaterialCmd; 
+
       G4UIcmdWithADoubleAndUnit *detXsizeCmd;
       G4UIcmdWithADoubleAndUnit *detYsizeCmd;
       G4UIcmdWithADoubleAndUnit *detZsizeCmd;
