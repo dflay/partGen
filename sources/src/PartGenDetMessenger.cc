@@ -1,6 +1,6 @@
-#include "PartGenMessenger.hh"
+#include "PartGenDetMessenger.hh"
 //______________________________________________________________________________
-PartGenMessenger::PartGenMessenger(PartGenDetectorConstruction *dc)
+PartGenDetMessenger::PartGenDetMessenger(PartGenDetectorConstruction *dc)
    :G4UImessenger(),
    fDetCon(dc),
    msgDir(0),
@@ -18,13 +18,9 @@ PartGenMessenger::PartGenMessenger(PartGenDetectorConstruction *dc)
   msgDir = new G4UIdirectory("/partGen/");
   msgDir->SetGuidance("Setup commands"); 
 
-  // beamEnergyCmd = new G4UIcmdWithADoubleAndUnit("/partGen/beamE",this);
-  // beamEnergyCmd->SetGuidance("Beam energy");
-  // beamEnergyCmd->SetParameterName("beamE",true); // second argument = omittable? 
-
   tgtMaterialCmd = new G4UIcmdWithAString("/partGen/tgtMaterial",this); 
   tgtMaterialCmd->SetGuidance("Target material (options: Tungsten, Copper, Al)");
-  tgtMaterialCmd->SetParameterName("tgtMaterial",true);  
+  tgtMaterialCmd->SetParameterName("tgtMaterial",true); // second argument = omittable? (T or F)   
 
   tgtXsizeCmd = new G4UIcmdWithADoubleAndUnit("/partGen/tgtXsize",this);
   tgtXsizeCmd->SetGuidance("Target x size");
@@ -64,7 +60,7 @@ PartGenMessenger::PartGenMessenger(PartGenDetectorConstruction *dc)
 
 }
 //______________________________________________________________________________
-PartGenMessenger::~PartGenMessenger(){
+PartGenDetMessenger::~PartGenDetMessenger(){
   if(tgtMaterialCmd) delete tgtMaterialCmd;
   if(tgtXsizeCmd)    delete tgtXsizeCmd; 
   if(tgtYsizeCmd)    delete tgtYsizeCmd; 
@@ -78,12 +74,7 @@ PartGenMessenger::~PartGenMessenger(){
   if(msgDir)         delete msgDir; 
 }
 //______________________________________________________________________________
-void PartGenMessenger::SetNewValue(G4UIcommand *cmd,G4String newValue){
-
-   // if( cmd==beamEnergyCmd ){
-   //    G4double be = beamEnergyCmd->GetNewDoubleValue(newValue);
-   //    fPriGen->SetBeamEnergy(be);   
-   // }
+void PartGenDetMessenger::SetNewValue(G4UIcommand *cmd,G4String newValue){
 
    if( cmd==tgtMaterialCmd ){
       fDetCon->SetTgtMaterial(newValue);

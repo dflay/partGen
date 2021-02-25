@@ -13,7 +13,7 @@
 #include "PartParameters.hh"
 #include "PartGenEnumerate.hh"
 #include "PartGenSD.hh"
-#include "PartGenMessenger.hh"
+#include "PartGenDetMessenger.hh"
 
 #include "G4Transform3D.hh"
 #include "G4PhysicalConstants.hh"
@@ -40,7 +40,7 @@
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
-class PartGenMessenger; 
+class PartGenDetMessenger; 
 
 /// Detector construction class to define materials and geometry.
 
@@ -73,7 +73,7 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
 
   private:
    // data members 
-   PartGenMessenger *fMessenger; 
+   PartGenDetMessenger *fMessenger; 
 
    bool fDebug,fCheckOverlaps;
 

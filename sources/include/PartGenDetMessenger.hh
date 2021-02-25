@@ -1,7 +1,7 @@
 // Messenger class for the detector construction class
 
-#ifndef PartGenMessenger_HH
-#define PartGenMessenger_HH
+#ifndef PartGenDetMessenger_HH
+#define PartGenDetMessenger_HH
 
 #include "globals.hh"
 #include "G4UImessenger.hh"
@@ -12,30 +12,23 @@
 #include "G4UIdirectory.hh"
 
 #include "PartGenDetectorConstruction.hh"
-// #include "PartGenPrimaryGeneratorAction.hh"
 
 class PartGenDetectorConstruction; 
 
-class PartGenMessenger: public G4UImessenger { 
+class PartGenDetMessenger: public G4UImessenger { 
 
    public: 
-      PartGenMessenger(PartGenDetectorConstruction *dc);
-      ~PartGenMessenger();
-
-      // void SetDetCon(PartGenDetectorConstruction *dc)    { fDetCon = dc;  } 
-      // void SetPriGen(PartGenPrimaryGeneratorAction *pga) { fPriGen = pga; } 
+      PartGenDetMessenger(PartGenDetectorConstruction *dc);
+      ~PartGenDetMessenger();
 
       void SetNewValue(G4UIcommand *cmd,G4String newValue);
 
    private: 
       PartGenDetectorConstruction *fDetCon;
-      // PartGenPrimaryGeneratorAction *fPriGen;
 
       G4UIdirectory *msgDir;
 
       G4UIcmdWithAString *tgtMaterialCmd; 
-      
-      // G4UIcmdWithADoubleAndUnit *beamEnergyCmd;
 
       // target commands
       G4UIcmdWithADoubleAndUnit *tgtXsizeCmd;

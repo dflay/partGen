@@ -19,7 +19,7 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
 
    fTgtMaterialName = "Aluminum"; 
 
-   fMessenger = new PartGenMessenger(this); 
+   fMessenger = new PartGenDetMessenger(this); 
  
 }
 //______________________________________________________________________________

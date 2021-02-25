@@ -29,7 +29,6 @@
 
 #include "PartGenDetectorConstruction.hh"
 #include "PartGenActionInitialization.hh"
-#include "PartGenMessenger.hh"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"

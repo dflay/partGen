@@ -43,20 +43,28 @@
 
 PartGenPrimaryGeneratorAction::PartGenPrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
-  fParticleGun(0) 
+  fParticleGun(0),
+  fParticleKinEnergy(1.*GeV),
+  fParticleMomentum(0),
+  fParticleMass(0), 
+  fMessenger(0) 
   // fEnvelopeBox(0)
 {
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
 
+  fMessenger = new PartGenBeamMessenger(this);
+
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+
   G4String particleName;
-  G4ParticleDefinition* particle
-    = particleTable->FindParticle(particleName="e-");
+  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="e-");
+  fParticleMass = particle->GetPDGMass();
+
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(1.*GeV); // WARNING: Kinetic energy!
+  fParticleGun->SetParticleEnergy(fParticleKinEnergy); // NB: Kinetic energy!
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -64,6 +72,7 @@ PartGenPrimaryGeneratorAction::PartGenPrimaryGeneratorAction()
 PartGenPrimaryGeneratorAction::~PartGenPrimaryGeneratorAction()
 {
   delete fParticleGun;
+  delete fMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -128,9 +137,20 @@ void PartGenPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double x0 = 0; 
   G4double y0 = 0; 
   G4double z0 = -worldZHalfLength; 
-  
-  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 
+  // compute particle kinetic energy 
+  // Note: T^2 + 2mT = p^2 => T = sqrt(p^2 + m^2) - m (other root is negative)  
+  fParticleKinEnergy = sqrt( pow(fParticleMomentum,2.) + pow(fParticleMass,2.) ) - fParticleMass;
+
+  char msg[200];
+  sprintf(msg,"**** Particle details: p = %.7lf GeV, T = %.7lf GeV",fParticleMomentum/GeV,fParticleKinEnergy/GeV);
+  std::cout << msg << std::endl;
+
+  // N.B: set *kinetic* energy 
+  fParticleGun->SetParticleEnergy(fParticleKinEnergy); 
+  // set position
+  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+  // generate vertex 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
