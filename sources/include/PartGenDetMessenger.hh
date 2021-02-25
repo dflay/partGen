@@ -26,7 +26,9 @@ class PartGenDetMessenger: public G4UImessenger {
    private: 
       PartGenDetectorConstruction *fDetCon;
 
-      G4UIdirectory *msgDir;
+      G4UIdirectory *genDir;
+      G4UIdirectory *tgtDir;
+      G4UIdirectory *detDir;
 
       G4UIcmdWithAString *tgtMaterialCmd; 
 

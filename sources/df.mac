@@ -9,17 +9,17 @@
 # beam setup e- is default (and fixed) particle type 
 /partGen/beam/momentum 10 GeV # beam momentum  
 # target setup (rectangle) 
-/partGen/tgtMaterial Tungsten # other options: Copper, Aluminum (full spelling) 
-/partGen/tgtXsize 20 cm       # width (perpendicular to beam) 
-/partGen/tgtYsize 20 cm       # height (perpendicular to beam)
-/partGen/tgtZsize 5  cm       # thickness along beam
+/partGen/tgt/tgtMaterial Tungsten # other options: Copper, Aluminum (full spelling) 
+/partGen/tgt/tgtXsize 20 cm       # width (perpendicular to beam) 
+/partGen/tgt/tgtYsize 20 cm       # height (perpendicular to beam)
+/partGen/tgt/tgtZsize 5  cm       # thickness along beam
 # detector setup (rectangle)  
-/partGen/detXsize 20 cm       # width (perpendicular to beam) 
-/partGen/detYsize 20 cm       # height (perpendicular to beam)
-/partGen/detZsize 5  cm       # thickness along beam
-/partGen/detX     0  cm       # position in horizontal direction (+x = beam left) 
-/partGen/detY     0  cm       # position in vertical direction   (+y = above beam)          
-/partGen/detZ     20 cm       # position along beam axis         (+z = downstream)          
+/partGen/det/detXsize 20 cm       # width (perpendicular to beam) 
+/partGen/det/detYsize 20 cm       # height (perpendicular to beam)
+/partGen/det/detZsize 5  cm       # thickness along beam
+/partGen/det/detX     0  cm       # position in horizontal direction (+x = beam left) 
+/partGen/det/detY     0  cm       # position in vertical direction   (+y = above beam)          
+/partGen/det/detZ     20 cm       # position along beam axis         (+z = downstream)          
 
 # run events 
 /run/beamOn 1000

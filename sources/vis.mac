@@ -1,6 +1,19 @@
 # Macro file for the visualization setting in the initialization phase 
-# of the B1 example when running in interactive mode
-#
+
+# beam setup e- is default (and fixed) particle type 
+/partGen/beam/momentum 10 GeV # beam momentum  
+# target setup (rectangle) 
+/partGen/tgt/tgtMaterial Tungsten # other options: Copper, Aluminum (full spelling) 
+/partGen/tgt/tgtXsize 20 cm       # width (perpendicular to beam) 
+/partGen/tgt/tgtYsize 20 cm       # height (perpendicular to beam)
+/partGen/tgt/tgtZsize 5  cm       # thickness along beam
+# detector setup (rectangle)  
+/partGen/det/detXsize 20 cm       # width (perpendicular to beam) 
+/partGen/det/detYsize 20 cm       # height (perpendicular to beam)
+/partGen/det/detZsize 5  cm       # thickness along beam
+/partGen/det/detX     0  cm       # position in horizontal direction (+x = beam left) 
+/partGen/det/detY     0  cm       # position in vertical direction   (+y = above beam)          
+/partGen/det/detZ     20 cm       # position along beam axis         (+z = downstream)   
 
 # Use these open statements to open selected visualization
 #
