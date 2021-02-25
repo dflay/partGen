@@ -34,8 +34,10 @@
 #include "G4SDManager.hh"
 #include "globals.hh"
 #include "PartGenHit.hh"
+#include "PartGenEventMessenger.hh"
 
 // class PartGenRunAction;
+class PartGenEventMessenger; 
 
 /// Event action class
 
@@ -48,10 +50,14 @@ class PartGenEventAction : public G4UserEventAction
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
 
+    void Cntr(G4int i) { fCntr = i; } 
+
     // void AddEdep(G4double edep)   { fEdep  += edep;  }
     // void AddTrLen(G4double trLen) { fTrLen += trLen; }
     // void SetMomentum(G4ThreeVector P) { fPx = P.x(); fPy = P.y(); fPz = P.z(); } 
     // void SetPosition(G4ThreeVector Q) { fx  = Q.x(); fy  = Q.y(); fz  = Q.z(); } 
+
+    void SetVerbosity(G4int v) { fVerbosity = v; } 
 
   private:
     // PartGenRunAction* fRunAction;
@@ -59,6 +65,10 @@ class PartGenEventAction : public G4UserEventAction
     // G4double fTrLen;
     // G4double fPx,fPy,fPz;
     // G4double fx,fy,fz;
+    G4int fCntr;
+    G4int fVerbosity;
+
+    PartGenEventMessenger *fMessenger;  
 
     PartGenHitsCollection *GetHitsCollection(G4int hcID,const G4Event *event) const;
 

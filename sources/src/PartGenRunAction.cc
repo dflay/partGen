@@ -73,14 +73,17 @@ PartGenRunAction::PartGenRunAction()
   analysisManager->CreateNtupleDColumn("xPos");
   analysisManager->CreateNtupleDColumn("yPos");
   analysisManager->CreateNtupleDColumn("zPos");
-  analysisManager->CreateNtupleDColumn("xLabPos");
-  analysisManager->CreateNtupleDColumn("yLabPos");
-  analysisManager->CreateNtupleDColumn("zLabPos");
+  // analysisManager->CreateNtupleDColumn("xLabPos");
+  // analysisManager->CreateNtupleDColumn("yLabPos");
+  // analysisManager->CreateNtupleDColumn("zLabPos");
   // momentum 
   analysisManager->CreateNtupleDColumn("Px");
   analysisManager->CreateNtupleDColumn("Py");
   analysisManager->CreateNtupleDColumn("Pz");
   analysisManager->CreateNtupleDColumn("P");
+  // other useful info
+  analysisManager->CreateNtupleDColumn("hit");
+  analysisManager->CreateNtupleDColumn("pid");  
 
   analysisManager->FinishNtuple();
 
@@ -104,7 +107,7 @@ void PartGenRunAction::BeginOfRunAction(const G4Run*)
 
 }
 //______________________________________________________________________________
-void PartGenRunAction::EndOfRunAction(const G4Run* run)
+void PartGenRunAction::EndOfRunAction(const G4Run*)
 {
 
   auto analysisManager = G4AnalysisManager::Instance();

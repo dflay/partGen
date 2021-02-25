@@ -5,7 +5,6 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
   fScoringVolume(0),fMessenger(0),fDebug(false),fCheckOverlaps(true)
 { 
 
-   std::cout << "START DETECTOR CONSTRUCTOR " << std::endl;
    fTgtXSize = 5.*cm;
    fTgtYSize = 5.*cm;
    fTgtZSize = 5.*mm;
@@ -22,8 +21,6 @@ PartGenDetectorConstruction::PartGenDetectorConstruction()
    fDetMaterialName = "Air"; 
 
    fMessenger = new PartGenDetMessenger(this); 
-   
-   std::cout << "END DETECTOR CONSTRUCTOR " << std::endl;
  
 }
 //______________________________________________________________________________
@@ -43,7 +40,6 @@ G4VPhysicalVolume* PartGenDetectorConstruction::Construct()
 //______________________________________________________________________________
 G4VPhysicalVolume *PartGenDetectorConstruction::ConstructGeometries(){
 
-  std::cout << "Starting to construct geometry..." << std::endl;
   // World
   G4double world_sizeXY = 5*m;
   G4double world_sizeZ  = 10*m;
@@ -73,8 +69,6 @@ G4VPhysicalVolume *PartGenDetectorConstruction::ConstructGeometries(){
 
   // build detector  
   BuildDetector(logicWorld); 
-  
-  std::cout << "done." << std::endl;
 
   // beam path (for reference only) 
   // BuildBeamRef(logicWorld);  
@@ -91,8 +85,8 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
    G4double y_len = fTgtYSize; // length along vertical axis 
    G4double z_len = fTgtZSize; // length along beam axis 
 
-   std::cout << "****** TARGET MATERIAL: " << fTgtMaterialName << std::endl;
-   std::cout << "****** TARGET SIZE:     " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
+   // std::cout << "****** TARGET MATERIAL: " << fTgtMaterialName << std::endl;
+   // std::cout << "****** TARGET SIZE:     " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *tgtShape = new G4Box("tgtShape",x_len/2.,y_len/2.,z_len/2.);
 
@@ -121,8 +115,9 @@ void PartGenDetectorConstruction::BuildDetector(G4LogicalVolume *logicMother){
    G4double x_len = fDetXSize; // length along horizontal axis 
    G4double y_len = fDetYSize; // length along vertical axis 
    G4double z_len = fDetZSize; // length along beam axis
-   std::cout << "****** DETECTOR MATERIAL: " << fDetMaterialName << std::endl; 
-   std::cout << "****** DETECTOR SIZE:     " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
+
+   // std::cout << "****** DETECTOR MATERIAL: " << fDetMaterialName << std::endl; 
+   // std::cout << "****** DETECTOR SIZE:     " << x_len/cm << " cm, " << y_len/cm << " cm, " << z_len/cm << " cm" << std::endl;
 
    G4Box *detShape = new G4Box("detShape",x_len/2.,y_len/2.,z_len/2.);
 

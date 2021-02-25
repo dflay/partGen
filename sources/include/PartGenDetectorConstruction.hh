@@ -55,9 +55,9 @@ class PartGenDetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
     void SetTgtMaterial(G4String name) { fTgtMaterialName = name; } 
-    void SetTgtXSize(G4double x) { std::cout << "SETTING TARGET X SIZE" << std::endl; fTgtXSize = x; } 
-    void SetTgtYSize(G4double y) { std::cout << "SETTING TARGET Y SIZE" << std::endl; fTgtYSize = y; } 
-    void SetTgtZSize(G4double z) { std::cout << "SETTING TARGET Z SIZE" << std::endl; fTgtZSize = z; }
+    void SetTgtXSize(G4double x) { fTgtXSize = x; } 
+    void SetTgtYSize(G4double y) { fTgtYSize = y; } 
+    void SetTgtZSize(G4double z) { fTgtZSize = z; }
  
     void SetDetMaterial(G4String name) { fDetMaterialName = name; } 
     void SetDetXSize(G4double x) { fDetXSize = x; } 

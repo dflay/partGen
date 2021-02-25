@@ -56,7 +56,7 @@ class PartGenHit : public G4VHit
     void SetMomentum(G4ThreeVector m);
 
     // getter methods
-    G4double GetEdep()        const;
+    G4double GetEdep()        const;    
     G4double GetTrackLength() const;
     G4double GetTotalEnergy() const;
     G4double GetMomentumMag() const;
@@ -74,7 +74,7 @@ class PartGenHit : public G4VHit
   private:
     G4double fEdep;        // Energy deposit in the sensitive volume
     G4double fTrackLength; // Track length in the sensitive volume
-    G4double fEtot;        // Total energy (at pre-step)
+    G4double fEtot;        // Total energy (at pre-step) (= T + m) 
     G4double fBeta;        // Particle speed 
     G4double fHitTime;     // Time of hit 
     G4double fPmag;        // momentum magnitude  

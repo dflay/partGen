@@ -142,10 +142,10 @@ void PartGenPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // Note: T^2 + 2mT = p^2 => T = sqrt(p^2 + m^2) - m (other root is negative)  
   fParticleKinEnergy = sqrt( pow(fParticleMomentum,2.) + pow(fParticleMass,2.) ) - fParticleMass;
 
-  char msg[200];
-  sprintf(msg,"**** Particle details: p = %.7lf GeV, T = %.7lf GeV, m = %.10lf GeV",
-          fParticleMomentum/GeV,fParticleKinEnergy/GeV,fParticleMass/GeV);
-  std::cout << msg << std::endl;
+  // char msg[200];
+  // sprintf(msg,"**** Particle details: p = %.7lf GeV, T = %.7lf GeV, m = %.10lf GeV",
+  //         fParticleMomentum/GeV,fParticleKinEnergy/GeV,fParticleMass/GeV);
+  // std::cout << msg << std::endl;
 
   // N.B: set *kinetic* energy 
   fParticleGun->SetParticleEnergy(fParticleKinEnergy); 

@@ -58,7 +58,7 @@ void PartGenSteppingAction::UserSteppingAction(const G4Step* step)
   }
  
   // total energy deposit  
-  G4double edepStep = step->GetTotalEnergyDeposit()/GeV;
+  // G4double edepStep = step->GetTotalEnergyDeposit()/GeV;
 
   // step length
   G4double stepLength = 0.;
@@ -75,12 +75,12 @@ void PartGenSteppingAction::UserSteppingAction(const G4Step* step)
       
   // check if we are in scoring volume
   if(volume==fScoringVolume){
-
+     fEventAction->Cntr(0); // effectively does nothing; just here to eliminate warning message in compilation
   }else{
      // collect energy deposited and step length
      // note: these are accumulating  
      // fEventAction->AddEdep(edepStep); 
-     // fEventAction->AddTrLen(stepLength);
+     // fEventAction->AddTrLen(stepLength);  
      // fEventAction->SetMomentum(mom); 
   } 
  

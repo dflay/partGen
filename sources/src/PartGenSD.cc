@@ -52,7 +52,7 @@ G4bool PartGenSD::ProcessHits(G4Step* step,G4TouchableHistory*)
 
   // grab info from step 
   G4ThreeVector mom = step->GetPreStepPoint()->GetMomentum();
-  G4double E        = step->GetPreStepPoint()->GetTotalEnergy();
+  G4double E        = step->GetPreStepPoint()->GetTotalEnergy();    // total enegy of the track (= T + m) 
   G4double pMag     = step->GetPreStepPoint()->GetMomentum().mag(); // Momentum of particle that caused hit prior to the step
 
   G4int trackID     = step->GetTrack()->GetTrackID();
