@@ -15,9 +15,9 @@ git clone https://github.com/dflay/partGen.git
 
 ## Building 
 
-Make a `build` directory in parallel to the `sources` directory and copy the `config.sh` script to the `build` directory.
-
-Run the following: 
+cd into the `partGen` directory.  Make a `build` directory in parallel to the `sources` directory and 
+copy the `config.sh` script to the `build` directory. Be sure that the path to your Geant4 installation 
+is correct in the `config.sh` file (see the `-DGEANT4_DIR` variable).  Run the following: 
 
 ```
 cd build 
