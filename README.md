@@ -33,7 +33,8 @@ To run the program, run it from the build directory.  In interactive mode:
 ./partGenMain 
 ```
 
-This will bring up a Qt window showing the geometry setup.  To manually run events, use `/run/beamOn N`, with N = number of events. 
+This will bring up a Qt window showing the geometry setup.  To manually run events, 
+use `/run/beamOn N`, with N = number of events. 
 
 To run from batch mode: 
 
@@ -41,6 +42,24 @@ To run from batch mode:
 ./partGenMain macro-name.mac
 ```
 
-Where `macro-name.mac` is a Geant4 macro.  The df.mac gives an example.  From that file, the target material and size may be changed. 
+Where `macro-name.mac` is a Geant4 macro.  The df.mac gives an example.  
+From that file, the target material and size may be changed. 
 Additionally, the detector material, size, and location may be changed.
- 
+
+## Output 
+
+The program will generate a ROOT file called `outData.root` with the tree structure as shown below:  
+
+```
+Edep = energy deposited in target material (GeV)
+Etot = total energy of the track (GeV) = T + m
+xPos = x position (mm)
+yPos = y position (mm)
+zPos = z position (mm)
+px = x component of momentum (GeV)
+py = y component of momentum (GeV)
+pz = z component of momentum (GeV)
+P = quadrature sum of px, py, pz (GeV)
+hit = hit index (integer)
+pid = particle ID (11 = e-, -11 = e+). Full particle code is here: https://root.cern.ch/doc/master/TPDGCode_8h.html
+```
