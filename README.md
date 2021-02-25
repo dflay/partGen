@@ -5,7 +5,7 @@ determining their emerging energies and positions in the transverse plane.
 
 The default geometry is set in the Geant4 macro file `~/sources/df.mac`.  The world volume is set to vacuum. 
 
-# Building 
+## Building 
 
 Make a `build` directory in parallel to the `sources` directory and copy the `config.sh` script to the `build` directory.
 
@@ -17,7 +17,7 @@ cd build
 make -jN (N = number of cores of your machine) 
 ```
 
-# Running 
+## Running 
 
 To run the program, run it from the build directory.  In interactive mode: 
 
