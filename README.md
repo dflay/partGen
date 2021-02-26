@@ -42,13 +42,16 @@ To run from batch mode:
 ./partGenMain macro-name.mac
 ```
 
-Where `macro-name.mac` is a Geant4 macro.  The df.mac gives an example.  
+Where `macro-name.mac` is a Geant4 macro.  The `df.mac` file gives an example.  
 From that file, the target material and size may be changed. 
 Additionally, the detector material, size, and location may be changed.
 
 ## Output 
 
-The program will generate a ROOT file called `outData.root` with the tree structure as shown below:  
+The program will generate a ROOT file called `outData.root` with the tree structure as shown below.  
+Every hit registered in the detector material is printed to the file; as such, the event ID (evid) 
+is printed to the file alongside all other information.  (This means the entry ID in a ROOT script 
+is not identical to the event ID.)  
 
 ```
 Edep = energy deposited in target material (GeV)
@@ -62,5 +65,7 @@ pz = z component of momentum (GeV)
 P = quadrature sum of px, py, pz (GeV)
 hit = hit index (integer)
 pid = particle ID 
+evid = event ID 
 ```
+
 The full particle ID code is here: https://root.cern.ch/doc/master/TPDGCode_8h.html
