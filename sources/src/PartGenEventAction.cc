@@ -164,6 +164,7 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillNtupleDColumn(9 ,pmag );
       analysisManager->FillNtupleDColumn(10,i    ); 
       analysisManager->FillNtupleDColumn(11,pid  ); 
+      analysisManager->FillNtupleDColumn(12,eventID ); 
       analysisManager->AddNtupleRow();
 
       EDEP_sum += EDEP;

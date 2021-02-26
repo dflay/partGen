@@ -84,6 +84,7 @@ PartGenRunAction::PartGenRunAction()
   // other useful info
   analysisManager->CreateNtupleDColumn("hit");
   analysisManager->CreateNtupleDColumn("pid");  
+  analysisManager->CreateNtupleDColumn("evid");  
 
   analysisManager->FinishNtuple();
 
