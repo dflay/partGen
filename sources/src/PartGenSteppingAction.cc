@@ -66,6 +66,8 @@ void PartGenSteppingAction::UserSteppingAction(const G4Step* step)
     stepLength = step->GetStepLength()/mm;
   }
 
+  G4String particleName=step->GetTrack()->GetDefinition()->GetParticleName();
+  bool isElectron=(particleName=="electron")? true:false;
   // momentum 
   G4ThreeVector mom = step->GetTrack()->GetMomentum(); 
   // G4ThreeVector mom = step->GetTrack()->GetMomentum(); 
@@ -74,7 +76,7 @@ void PartGenSteppingAction::UserSteppingAction(const G4Step* step)
   G4LogicalVolume* volume = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
       
   // check if we are in scoring volume
-  if(volume==fScoringVolume){
+  if(volume==fScoringVolume &&isElectron){
      fEventAction->Cntr(0); // effectively does nothing; just here to eliminate warning message in compilation
   }else{
      // collect energy deposited and step length

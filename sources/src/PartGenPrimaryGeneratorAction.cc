@@ -28,52 +28,31 @@
 /// \brief Implementation of the PartGenPrimaryGeneratorAction class
 
 #include "PartGenPrimaryGeneratorAction.hh"
-
+//#include "PartGenElegantHEPEvtGenerator.hh"
+#include "G4HEPEvtInterface.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
 #include "G4RunManager.hh"
-#include "G4ParticleGun.hh"
-#include "G4ParticleTable.hh"
-#include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PartGenPrimaryGeneratorAction::PartGenPrimaryGeneratorAction()
-: G4VUserPrimaryGeneratorAction(),
-  fParticleGun(0),
-  fParticleKinEnergy(1.*GeV),
-  fParticleMomentum(0),
-  fParticleMass(0), 
-  fMessenger(0) 
-  // fEnvelopeBox(0)
 {
-  G4int n_particle = 1;
-  fParticleGun  = new G4ParticleGun(n_particle);
-
   fMessenger = new PartGenBeamMessenger(this);
-
-  // default particle kinematic
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-
-  G4String particleName;
-  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="e-");
-  fParticleMass = particle->GetPDGMass();
-
-  fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(fParticleKinEnergy); // NB: Kinetic energy!
+//  HEPEvt= new PartGenElegantHEPEventGenerator("elegantevent.data");
+  HEPEvt = new G4HEPEvtInterface("elegantevent.data");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PartGenPrimaryGeneratorAction::~PartGenPrimaryGeneratorAction()
 {
-  delete fParticleGun;
-  delete fMessenger;
+ delete HEPEvt;
 }
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -134,24 +113,6 @@ void PartGenPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       "MyCode0002", JustWarning, msg);
   }
 
-  G4double x0 = 0; 
-  G4double y0 = 0; 
-  G4double z0 = -worldZHalfLength; 
-
-  // compute particle kinetic energy 
-  // Note: T^2 + 2mT = p^2 => T = sqrt(p^2 + m^2) - m (other root is negative)  
-  fParticleKinEnergy = sqrt( pow(fParticleMomentum,2.) + pow(fParticleMass,2.) ) - fParticleMass;
-
-  // char msg[200];
-  // sprintf(msg,"**** Particle details: p = %.7lf GeV, T = %.7lf GeV, m = %.10lf GeV",
-  //         fParticleMomentum/GeV,fParticleKinEnergy/GeV,fParticleMass/GeV);
-  // std::cout << msg << std::endl;
-
-  // N.B: set *kinetic* energy 
-  fParticleGun->SetParticleEnergy(fParticleKinEnergy); 
-  // set position
-  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-  // generate vertex 
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+ HEPEvt->SetParticlePosition(G4ThreeVector(0.*cm,0.*cm,0.*cm));
+ HEPEvt->GeneratePrimaryVertex(anEvent);
 }
-

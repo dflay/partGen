@@ -31,7 +31,6 @@
 #define PartGenPrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
 #include "globals.hh"
 
 #include "PartGenBeamMessenger.hh" 
@@ -39,7 +38,7 @@
 class G4ParticleGun;
 class G4Event;
 class G4Box;
-
+class G4VPrimaryGenerator;
 class PartGenBeamMessenger; 
 
 /// The primary generator action class with particle gun.
@@ -58,15 +57,11 @@ class PartGenPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   
     void SetBeamMomentum(G4double p) { fParticleMomentum = p; } 
 
-    // method to access particle gun
-    const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
   
   private:
-    G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
+    G4VPrimaryGenerator* HEPEvt; // Using the HEP event generator from ascii file
     // G4Box* fEnvelopeBox;
-    G4double fParticleKinEnergy;
     G4double fParticleMomentum;
-    G4double fParticleMass;  
     PartGenBeamMessenger *fMessenger;  
 };
 
