@@ -106,6 +106,11 @@ void PartGenDetectorConstruction::BuildTarget(G4LogicalVolume *logicMother){
                      false,                // boolean object? (true or false)    
                      0,                    // copy number   
                      checkOverlaps);       // check overlaps       
+
+   // make it a sensitive detector  
+   PartGenSD *mySD = new PartGenSD("det","detHitsCollection");
+   G4SDManager::GetSDMpointer()->AddNewDetector(mySD); 
+   logicTgt->SetSensitiveDetector(mySD);  
    
 }
 //______________________________________________________________________________
@@ -143,10 +148,10 @@ void PartGenDetectorConstruction::BuildDetector(G4LogicalVolume *logicMother){
                      0,                    // copy number   
                      checkOverlaps);       // check overlaps       
 
-   // make it a sensitive detector  
-   PartGenSD *mySD = new PartGenSD("det","detHitsCollection");
-   G4SDManager::GetSDMpointer()->AddNewDetector(mySD); 
-   logicDet->SetSensitiveDetector(mySD);  
+   // // make it a sensitive detector  
+   // PartGenSD *mySD = new PartGenSD("det","detHitsCollection");
+   // G4SDManager::GetSDMpointer()->AddNewDetector(mySD); 
+   // logicDet->SetSensitiveDetector(mySD);  
 
 }
 //______________________________________________________________________________

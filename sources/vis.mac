@@ -3,7 +3,9 @@
 # beam setup e- is default (and fixed) particle type 
 /partGen/beam/momentum 10 GeV # beam momentum 
 # event verbosity 
-/partGen/eventAction/verbosity 0  
+/partGen/eventAction/verbosity 0 
+# production cut (value *above which* processes are called) 
+/partGen/phys/cutThreshold 0.100 mm
 # target setup (rectangle) 
 /partGen/tgt/tgtMaterial Tungsten # other options: Copper, Aluminum (full spelling) 
 /partGen/tgt/tgtXsize 10 cm       # width (perpendicular to beam) 

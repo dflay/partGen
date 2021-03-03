@@ -29,6 +29,7 @@
 
 #include "PartGenDetectorConstruction.hh"
 #include "PartGenActionInitialization.hh"
+#include "PartGenPhysicsList.hh"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -73,9 +74,12 @@ int main(int argc,char** argv)
 
   // Physics list
   // G4VModularPhysicsList* physicsList = new QBBC;
-  G4VModularPhysicsList* physicsList = new FTFP_BERT; // Geant4 default 
-  physicsList->SetVerboseLevel(1);
-  runManager->SetUserInitialization(physicsList);
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT; // Geant4 default 
+  // physicsList->SetVerboseLevel(1);
+  // runManager->SetUserInitialization(physicsList);
+
+  G4VModularPhysicsList *physList = new PartGenPhysicsList;
+  runManager->SetUserInitialization(physList);
     
   // User action initialization
   runManager->SetUserInitialization( new PartGenActionInitialization() );
