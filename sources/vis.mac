@@ -6,6 +6,7 @@
 /partGen/eventAction/verbosity 0 
 # production cut (value *above which* processes are called) 
 /partGen/phys/cutThreshold 0.100 mm
+# /run/setCut 5 um
 # target setup (rectangle) 
 /partGen/tgt/tgtMaterial Tungsten # other options: Copper, Aluminum (full spelling) 
 /partGen/tgt/tgtXsize 10 cm       # width (perpendicular to beam) 
