@@ -28,8 +28,7 @@
 /// \brief Implementation of the PartGenPrimaryGeneratorAction class
 
 #include "PartGenPrimaryGeneratorAction.hh"
-//#include "PartGenElegantHEPEvtGenerator.hh"
-#include "G4HEPEvtInterface.hh"
+#include "PartGenElegantInterface.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
@@ -42,8 +41,7 @@
 PartGenPrimaryGeneratorAction::PartGenPrimaryGeneratorAction()
 {
   fMessenger = new PartGenBeamMessenger(this);
-//  HEPEvt= new PartGenElegantHEPEventGenerator("elegantevent.data");
-  HEPEvt = new G4HEPEvtInterface("elegantevent.data");
+  HEPEvt = new PartGenElegantInterface("elegantevent.data");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -113,6 +111,5 @@ void PartGenPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       "MyCode0002", JustWarning, msg);
   }
 
- HEPEvt->SetParticlePosition(G4ThreeVector(0.*cm,0.*cm,0.*cm));
  HEPEvt->GeneratePrimaryVertex(anEvent);
 }

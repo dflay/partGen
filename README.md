@@ -69,3 +69,12 @@ evid = event ID
 ```
 
 The full particle ID code is here: https://root.cern.ch/doc/master/TPDGCode_8h.html
+
+##  Elegant Interface
+
+ In order to generate a file suitable for transporting via this G4 program, use:
+
+sdds2stream -col=x,xp,y,yp,p PSPACE.SDDS |awk '{print 1,11,0,0,$2*$5*0.511e-3,$4*$5*0.511e-3,sqrt(1.0-$2*$2-$4*$4)*$5*0.511e-3,0.511e-3,$1*1000,$2*2000,$3*1000}' >elegantevent.data
+{ sdds2stream -par=Particles PSPACE.SDDS ;cat elegantevent.data; }> elegantevent.data.new;mv elegantevent.data{.new,}
+
+where we have produced a phase space file PSPACE.SDDS using a WATCHPOINT element in the elegant lattice. 
