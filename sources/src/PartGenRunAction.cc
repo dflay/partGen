@@ -81,6 +81,8 @@ PartGenRunAction::PartGenRunAction()
   analysisManager->CreateNtupleDColumn("Py");
   analysisManager->CreateNtupleDColumn("Pz");
   analysisManager->CreateNtupleDColumn("P");
+  // time
+  analysisManager->CreateNtupleDColumn("t");
   // other useful info
   analysisManager->CreateNtupleDColumn("hit");
   analysisManager->CreateNtupleDColumn("pid");  

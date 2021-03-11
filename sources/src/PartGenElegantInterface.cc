@@ -66,13 +66,13 @@ void PartGenElegantInterface::GeneratePrimaryVertex(G4Event *evt)
       G4double VHEP1; // x position
       G4double VHEP2; // y position
       G4double VHEP3; // z position
-     
+      G4double VHEP4; // time
       //note that for ELEGANT, we will always have  first and last daughter at zero
       //the position will represent the location within the bunch.
       //
       inputFile >> ISTHEP >> IDHEP >> JDAHEP1 >> JDAHEP2
 		>> PHEP1 >> PHEP2 >> PHEP3 >> PHEP5
-		>> VHEP1>> VHEP2 >> VHEP3;
+		>> VHEP1>> VHEP2 >> VHEP3>> VHEP4;
 
       // create G4PrimaryParticle object
       G4PrimaryParticle* particle 
@@ -80,7 +80,7 @@ void PartGenElegantInterface::GeneratePrimaryVertex(G4Event *evt)
       particle->SetMass( PHEP5*GeV );
       particle->SetMomentum(PHEP1*GeV, PHEP2*GeV, PHEP3*GeV );
       particle_position=G4ThreeVector(VHEP1*mm,VHEP2*mm,VHEP3*mm);
-
+      particle_time=VHEP4*second;
       // create G4PrimaryVertex object
       G4PrimaryVertex* vertex = new G4PrimaryVertex(particle_position,particle_time);
       vertex->SetPrimary(particle);

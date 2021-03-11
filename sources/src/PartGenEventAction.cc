@@ -111,7 +111,7 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
    G4double x=0,y=0,z=0;
    // G4double lx=0,ly=0,lz=0;
    G4double px=0,py=0,pz=0,pmag=0;
-      
+   G4double t=0;   
    auto eventID = event->GetEventID();
    if(fVerbosity>0) std::cout << "===== Event " << eventID << std::endl;
 
@@ -126,6 +126,7 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       ETOT = theHit->GetTotalEnergy()/CLHEP::GeV; // total energy of track (= T + m) 
       TLEN = theHit->GetTrackLength()/CLHEP::mm;  // length of track 
       pmag = theHit->GetMomentumMag()/CLHEP::GeV; // |p| 
+      t = theHit->GetHitTime();
 
       pid  = theHit->GetPID();                    // particle type  
 
@@ -133,7 +134,6 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       x = pos.getX()/CLHEP::mm;
       y = pos.getY()/CLHEP::mm;
       z = pos.getZ()/CLHEP::mm;
-
       // this comes out IDENTICAL to above -- so comment it out; perhaps because geometry exactly matches the lab. 
       // G4ThreeVector labPos = theHit->GetLabPos();
       // lx = labPos.getX()/CLHEP::mm;
@@ -144,9 +144,10 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       px = mom.getX()/CLHEP::GeV;
       py = mom.getY()/CLHEP::GeV;
       pz = mom.getZ()/CLHEP::GeV;
+      
 
-      sprintf(msg,"   hit = %d, PID = %d, Etot = %.7lf GeV, Edep = %.7lf GeV, x = %.3lf mm, y = %.3lf mm, z = %.3lf mm, px = %.7lf GeV, py = %.7lf GeV, pz = %.7lf GeV",
-              i,pid,ETOT,EDEP,x,y,z,px,py,pz); 
+      sprintf(msg,"   hit = %d, PID = %d, Etot = %.7lf GeV, Edep = %.7lf GeV, x = %.3lf mm, y = %.3lf mm, z = %.3lf mm, px = %.7lf GeV, py = %.7lf GeV, pz = %.7lf GeV, t= %.7lf sec",
+              i,pid,ETOT,EDEP,x,y,z,px,py,pz,t); 
       if(fVerbosity>0) std::cout << msg << std::endl;
 
       analysisManager->FillNtupleDColumn(0 ,EDEP );
@@ -161,10 +162,11 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillNtupleDColumn(6 ,px   );
       analysisManager->FillNtupleDColumn(7 ,py   );
       analysisManager->FillNtupleDColumn(8 ,pz   );
-      analysisManager->FillNtupleDColumn(9 ,pmag );
-      analysisManager->FillNtupleDColumn(10,i    ); 
-      analysisManager->FillNtupleDColumn(11,pid  ); 
-      analysisManager->FillNtupleDColumn(12,eventID ); 
+      analysisManager->FillNtupleDColumn(9,t );
+      analysisManager->FillNtupleDColumn(10 ,pmag );
+      analysisManager->FillNtupleDColumn(11,i    ); 
+      analysisManager->FillNtupleDColumn(12,pid  ); 
+      analysisManager->FillNtupleDColumn(13,eventID ); 
       analysisManager->AddNtupleRow();
 
       EDEP_sum += EDEP;
@@ -185,7 +187,7 @@ void PartGenEventAction::EndOfEventAction(const G4Event* event)
    // analysisManager->FillNtupleDColumn(0,EDEP_sum );
    // analysisManager->FillNtupleDColumn(1,TLEN_sum );
    // analysisManager->FillNtupleDColumn(2,ETOT_sum );
-   // analysisManager->FillNtupleDColumn(9,pmag_sum );
+   // analysisManager->FillNtupleDColumn(10,pmag_sum );
    // analysisManager->AddNtupleRow();
 
 }
